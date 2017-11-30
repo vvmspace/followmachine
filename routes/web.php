@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'This is an index page of this service.';
+});
+
+Route::get('/auth', function (){
+    return 'Twitter auth route.';
 });
