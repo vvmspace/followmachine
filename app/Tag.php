@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    //
+    static function Parse(){
+
+    }
 }
