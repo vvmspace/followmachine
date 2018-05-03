@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return 'This is an index page of this service.';
+    return view('welcome');
 });
 
 Route::get('/auth', function (){
