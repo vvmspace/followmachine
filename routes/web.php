@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/auth', function (){
     return 'Twitter auth route.';
 });
+
+Route::prefix('/promo')->group(function(){
+   Route::get('auth', 'TwitterAppController@promoUserAuth');
+});

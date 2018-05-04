@@ -82,4 +82,8 @@ class TwitterAppController extends Controller
     {
         //
     }
+
+    public function promoUserAuth(){
+        return 'TwitterAppController@promoUserAuth';
+    }
 }
