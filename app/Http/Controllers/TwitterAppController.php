@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Thujohn\Twitter\Facades\Twitter;
-
+use Illuminate\Support\Facades\Redirect;
 class TwitterAppController extends Controller
 {
     /**
@@ -126,7 +126,7 @@ class TwitterAppController extends Controller
 
                 Session::put('access_token', $token);
 
-                return Redirect::to('promo')->with('flash_notice', 'Congrats! You\'ve successfully signed in!');
+                return Redirect::to(route('promo', ['flash_notice' => "'Congrats! You\'ve successfully signed in!'"]));
             }
 
             return Redirect::route('promo.error')->with('flash_error', 'Crab! Something went wrong while signing you up!');
@@ -145,22 +145,22 @@ class TwitterAppController extends Controller
         $sign_in_twitter = true;
         $force_login = false;
 
-        dump(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
+        // dump(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
         // Make sure we make this request w/o tokens, overwrite the default values in case of login.
         FMTwitter::reconfig(['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '', 'token' => '', 'secret' => '']);
         $token = FMTwitter::getRequestToken(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
-//
-//        if (isset($token['oauth_token_secret']))
-//        {
-//            $url = Twitter::getAuthorizeURL($token, $sign_in_twitter, $force_login);
-//
-//            Session::put('oauth_state', 'start');
-//            Session::put('oauth_request_token', $token['oauth_token']);
-//            Session::put('oauth_request_token_secret', $token['oauth_token_secret']);
-//
-//            return Redirect::to($url);
-//        }
-//
-//        return Redirect::route('twitter.error');
+
+        if (isset($token['oauth_token_secret']))
+        {
+            $url = Twitter::getAuthorizeURL($token, $sign_in_twitter, $force_login);
+
+            Session::put('oauth_state', 'start');
+            Session::put('oauth_request_token', $token['oauth_token']);
+            Session::put('oauth_request_token_secret', $token['oauth_token_secret']);
+
+            return Redirect::to($url);
+        }
+
+        return Redirect::route('twitter.error');
     }
 }
