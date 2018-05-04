@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\FMTwitter;
 use App\TwitterApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -96,7 +95,7 @@ class TwitterAppController extends Controller
                 'secret' => Session::get('oauth_request_token_secret'),
             ];
 
-            FMTwitter::reconfig($request_token);
+            Twitter::reconfig($request_token);
 
             $oauth_verifier = false;
 
@@ -104,7 +103,7 @@ class TwitterAppController extends Controller
             {
                 $oauth_verifier = Input::get('oauth_verifier');
                 // getAccessToken() will reset the token for you
-                $token = FMTwitter::getAccessToken($oauth_verifier);
+                $token = Twitter::getAccessToken($oauth_verifier);
             }
 
             if (!isset($token['oauth_token_secret']))
@@ -112,7 +111,7 @@ class TwitterAppController extends Controller
                 return Redirect::route('promo.error')->with('flash_error', 'We could not log you in on Twitter.');
             }
 
-            $credentials = FMTwitter::getCredentials();
+            $credentials = Twitter::getCredentials();
 
             if (is_object($credentials) && !isset($credentials->error))
             {
@@ -147,8 +146,8 @@ class TwitterAppController extends Controller
 
         // dump(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
         // Make sure we make this request w/o tokens, overwrite the default values in case of login.
-        FMTwitter::reconfig(['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '', 'token' => '', 'secret' => '']);
-        $token = FMTwitter::getRequestToken(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
+        Twitter::reconfig(['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '', 'token' => '', 'secret' => '']);
+        $token = Twitter::getRequestToken(route('promo.callback', ['consumer_key' => $tapp->key ?? '', 'consumer_secret' => $tapp->secret ?? '']));
 
         if (isset($token['oauth_token_secret']))
         {
