@@ -1,5 +1,11 @@
 <?php
 
+if(!defined('CURL_HTTP_VERSION_1_1')){
+    define ('CURL_HTTP_VERSION_1_1', 2);
+}
+
+
+
 return [
 
     /*
