@@ -20,5 +20,10 @@ Route::get('/auth', function (){
 });
 
 Route::prefix('/promo')->group(function(){
+    Route::get('/', function(){
+        return 'promo';
+    })->name('promo');
+   Route::get('auth/callback', 'TwitterAppController@promoUserAuthCallback')->name('promo.callback');
+   Route::get('auth/error', 'TwitterAppController@promoUserAuthError')->name('promo.error');
    Route::get('auth', 'TwitterAppController@promoUserAuth');
 });
