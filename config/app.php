@@ -174,6 +174,8 @@ return [
          * Package Service Providers...
          */
 
+        Collective\Html\HtmlServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -243,6 +245,9 @@ return [
          */
 
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
+
     ],
 
 ];
