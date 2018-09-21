@@ -27,3 +27,6 @@ Route::prefix('/promo')->group(function(){
    Route::get('auth/error', 'TwitterAppController@promoUserAuthError')->name('promo.error');
    Route::get('auth', 'TwitterAppController@promoUserAuth');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
